@@ -41,9 +41,15 @@ createPolicyTiles <- function(num_liberal_policies_left=6,num_fascist_policies_l
 	policy_pool <- c(rep('Liberal Policy',num_liberal_policies_left),rep('Fascist Policy',num_fascist_policies_left))
 	policy_select <- sample(policy_pool,3,replace=FALSE)
 	email <- gm_mime() %>%
-		gm_to(current_game_players$email[current_game_players$people==president]) %>%
+		gm_to(players$email[players$people==president]) %>%
 		gm_from('headisbagent@gmail.com') %>%
 		gm_subject('Secret Hitler: Selected policies for president') %>%
 		gm_html_body(paste('Your randomly selected policies are:',paste(policy_select,collapse=', ')))
 	gm_send_message(email)
+}
+
+randomPolicy <- function(num_liberal_policies_left=6,num_fascist_policies_left=11) {
+	policy_pool <- c(rep('Liberal Policy',num_liberal_policies_left),rep('Fascist Policy',num_fascist_policies_left))
+	output <- sample(policy_pool,1,replace=FALSE)
+	return(output)
 }
