@@ -1,0 +1,36 @@
+Tutorial for running "secret_hitler.r":
+
+Rules for Secret Hitler gameplay can be found at:
+https://secrethitler.com/assets/Secret_Hitler_Rules.pdf
+
+This is a quick tutorial on how to use the R script for those who have limited experience with the R programming language.  There are four basic steps to run the program:
+
+1. Installing packages
+At the beginning of the code, you will notice three lines:
+	library(gmailr)
+	library(dplyr)
+	library(data.table)
+These are external packages that are being used in the code and will need to be installed first.  Fortunately, this is fairly straightforward.  Simply enter the following code (one line at a time) into the R console:
+	install.packages('gmailr')
+	install.packages('dplyr')
+	install.packages('data.table')
+After entering the first time, you will be prompted to select a region (this simply indicates the server you wish to download the packages from).
+
+2. Setup an e-mail connection
+The code used in this program assumes use of Gmail, if another client is used then you will have to re-work a bit of the code yourself.  Follow the instructions at "https://github.com/r-lib/gmailr" to both obtain your Gmail credentials and enable the API to interact with R.
+
+3. Create a "players.r" file
+Create a new R file named "players.r" in the same directory where "secret_hitler.r" is located.  Copy and paste the following line of code into "players.r":
+	players <- data.table(names=c('Name1','Name2'),email=c('name1email','name2email'))
+And replace 'Name1' and 'Name2' with the player's name and their respective e-mails in place of 'name1email' and 'name2email'.  You can add more players in the same format.  Note that Secret Hitler is meant to be played with a minimum of 5 people and a maximum of 10 people.
+
+4. Assigning roles and sending policies
+In order to send an e-mail to each player informing them of their roles, run the entire script of "secret_hitler.r" and then simply type the following into the console:
+	assignRoles(c('Name1','Name2'))
+Where 'Name1' and 'Name2' (and upwards of 8 other names) are replaced by names of the actual players.  Note that these names must be listed in the "players.r" file.
+
+To send the randomized policy tiles to the president, enter the following:
+	createPolicyTiles('number of liberal policies remaining','number of fascist policies remaining','Name1')
+Replace 'number of liberal polices remaining' with the actual number (no quotes!), likewise with 'number of fascist policies remaining'.  Replace 'Name1' with the name of the player who is currently president.
+
+Questions or concerns?  E-mail me at headisbagent@gmail.com
