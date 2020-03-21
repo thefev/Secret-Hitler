@@ -1,6 +1,6 @@
-library(gmailr)
 library(dplyr)
 library(data.table)
+library(gmailr)
 
 ## To setup gmailr authentication, follow steps at: ##
 ## https://github.com/r-lib/gmailr ##
@@ -18,11 +18,11 @@ source('D:/repos/secret-hitler-R/players.r')
 tracker <- data.table(liberal_tiles=6, fascist_tiles=11, num_lib_pol=0, num_fas_pol=0)
 
 ##  Generates list of roles determined by number of players. Called by assignRoles.
-##    Args.:    numberOfPlayers (int)   -   number of players in this game instance
+##    Args.:    number_of_players (int)   -   number of players in this game instance
 ##    Returns:  output (list of chr)    -   list of roles for players to assume
-.CreateRoles <- function(numberOfPlayers) {
-	num_liberals <- (numberOfPlayers-numberOfPlayers%%2)/2+1
-	num_fascists <- numberOfPlayers-num_liberals-1
+.CreateRoles <- function(number_of_players) {
+	num_liberals <- (number_of_players-number_of_players%%2)/2+1
+	num_fascists <- number_of_players-num_liberals-1
 	output <- c(rep("liberal",num_liberals),rep("fascist",num_fascists),"Hitler")
 	return(output)
 }
@@ -93,12 +93,12 @@ CreatePolicyTiles <- function(president,
 }
 
 ##  Takes in the policy that had just been implemented by the chancellor and removes that policy from the deck
-##    Args.:    chosenPolicy (chr)   -   the policy chosen by the chancellor to enact
-ChoosePolicy <- function(chosenPolicy) {
-  if (chosenPolicy == "Fascist Policy" || chosenPolicy == "fas" || chosenPolicy == "fascist") {
+##    Args.:    chosen_policy (chr)   -   the policy chosen by the chancellor to enact
+ChoosePolicy <- function(chosen_policy) {
+  if (chosen_policy == "Fascist Policy" || chosen_policy == "fas" || chosen_policy == "fascist") {
     tracker$num_fas_pol <<- tracker$num_fas_pol + 1
   }
-  else if (chosenPolicy == "Liberal Policy" || chosenPolicy == "lib" || chosenPolicy == "liberal") {
+  else if (chosen_policy == "Liberal Policy" || chosen_policy == "lib" || chosen_policy == "liberal") {
     tracker$num_lib_pol <<- tracker$num_lib_pol + 1
   }
 }
@@ -145,4 +145,10 @@ Investigate <- function (president, investigatee) {
     tracker$liberal_tiles <<- 6 - tracker$num_lib_pol
     tracker$fascist_tiles <<- 11 - tracker$num_fas_pol
   }
+}
+
+## Resets game state by stripping player roles and resetting tracker
+ResetGame <- function() {
+  players$roles <<- NULL
+  tracker <<- data.table(liberal_tiles=6, fascist_tiles=11, num_lib_pol=0, num_fas_pol=0)
 }
