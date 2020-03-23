@@ -93,12 +93,12 @@ CreatePolicyTiles <- function(president,
 }
 
 ##  Takes in the policy that had just been implemented by the chancellor and removes that policy from the deck
-##    Args.:    chosen_policy (chr)   -   the policy chosen by the chancellor to enact
+##    Args.:    chosen_policy (chr)   -   the policy chosen by the chancellor to enact ("Fascist" or "Liberal")
 ChoosePolicy <- function(chosen_policy) {
-  if (chosen_policy == "Fascist Policy" || chosen_policy == "fas" || chosen_policy == "fascist") {
+  if (grepl(toupper(chosen_policy), "FASCIST POLICY")) {
     tracker$num_fas_pol <<- tracker$num_fas_pol + 1
   }
-  else if (chosen_policy == "Liberal Policy" || chosen_policy == "lib" || chosen_policy == "liberal") {
+  else if (grepl(toupper(chosen_policy), "LIBERAL POLICY")) {
     tracker$num_lib_pol <<- tracker$num_lib_pol + 1
   }
 }
